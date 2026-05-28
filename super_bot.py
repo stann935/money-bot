@@ -22,7 +22,7 @@ HEADERS = {
 }
 
 FLIP_KEYWORDS = ["iphone", "playstation", "ipad", "keyboard", "gopro"]
-FREELANCE_JOBS = ["logo design", "writing", "video editing", "data entry", "social media"]
+FREELANCE_JOBS = ["short video editing", "subtitles", "blog post", "captions", "proofreading", "data entry", "copy paste", "research", "voiceover", "podcast editing"]
 MAX_BUY_PRICE = 50.0
 MIN_PROFIT_MARGIN = 0.8
 def run_flip_finder():
@@ -63,7 +63,7 @@ def run_flip_finder():
 def run_lead_hunter():
     print("[+] Running Lead Hunter...")
     leads = []
-    subreddits = ["forhire", "designjobs", "freelance", "writinggigs"]
+    subreddits = ["forhire", "freelance", "writinggigs", "slavelabour", "jobs"]
     for sub in subreddits:
         try:
             url = f"https://www.reddit.com/r/{sub}/new/.rss"
