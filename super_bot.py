@@ -146,10 +146,20 @@ def send_email(flips, leads, trends):
         server.login(GMAIL_SENDER, GMAIL_APP_PASSWORD)
         server.sendmail(GMAIL_SENDER, RECIPIENT_EMAIL, msg.as_string())
     print("[+] Email sent successfully!")
-if __name__ == "__main__":
-    print("[+] Starting Daily Money Bot...")
+from flask import Flask
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "Bot is running!"
+
+@app.route("/run")
+def run_bot():
     flips = run_flip_finder()
     leads = run_lead_hunter()
     trends = run_trend_spotter()
     send_email(flips, leads, trends)
-    print("[+] Done!")
+    return "Done! Check your email."
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
