@@ -153,13 +153,17 @@ app = Flask(__name__)
 def home():
     return "Bot is running!"
 
+import threading
+
 @app.route("/run")
 def run_bot():
-    flips = run_flip_finder()
-    leads = run_lead_hunter()
-    trends = run_trend_spotter()
-    send_email(flips, leads, trends)
-    return "Done! Check your email."
+    def background():
+        flips = run_flip_finder()
+        leads = run_lead_hunter()
+        trends = run_trend_spotter()
+        send_email(flips, leads, trends)
+    threading.Thread(target=background).start()
+    return "Bot started! Check your email in 2-3 minutes.", 200
 
 if __name__ == "__main__":
     if os.environ.get("RUN_MODE") == "cron":
