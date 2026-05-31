@@ -162,4 +162,12 @@ def run_bot():
     return "Done! Check your email."
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+    if os.environ.get("RUN_MODE") == "cron":
+        print("[+] Starting bot run...")
+        flips = run_flip_finder()
+        leads = run_lead_hunter()
+        trends = run_trend_spotter()
+        send_email(flips, leads, trends)
+        print("[+] Bot run complete.")
+    else:
+        app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
