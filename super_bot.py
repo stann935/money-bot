@@ -20,7 +20,9 @@ RECIPIENT_EMAIL = "stanfordlorenzo799@gmail.com"
 AMAZON_TAG = "notset-20"
 
 HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36"
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
 }
 
 FLIP_KEYWORDS = ["iphone", "playstation", "ipad", "keyboard", "gopro"]
@@ -96,7 +98,7 @@ def run_trend_spotter():
     print("[+] Running Trend Spotter...")
     trends = []
     try:
-        url = "https://trends.google.com/trends/trendingsearches/daily/rss?geo=US"
+        url = "https://trends.google.com/trends/trendingsearches/daily/rss?geo=US&hl=en-US"
         response = requests.get(url, headers=HEADERS, timeout=12)
         root = ET.fromstring(response.content)
         ns = {"ht": "http://namespaces.google.com/trends/hottrends"}
