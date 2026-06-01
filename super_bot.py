@@ -141,8 +141,7 @@ def send_email(flips, leads, trends):
     msg.attach(MIMEText(body, "plain"))
 
     context = ssl.create_default_context()
-    with smtplib.SMTP("smtp.gmail.com", 587) as server:
-        server.starttls(context=context)
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
         server.login(GMAIL_SENDER, GMAIL_APP_PASSWORD)
         server.sendmail(GMAIL_SENDER, RECIPIENT_EMAIL, msg.as_string())
     print("[+] Email sent successfully!")
