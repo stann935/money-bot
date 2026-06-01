@@ -12,6 +12,8 @@ import ssl
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+RESEND_API_KEY = "re_jLF3XFWX_Mu6QGdtbbnAkcLSdz3u2Pb7S"
+
 GMAIL_SENDER = "stanfordlorenzo799@gmail.com"
 GMAIL_APP_PASSWORD = "oaaw jrrr kduc gfcx"
 RECIPIENT_EMAIL = "stanfordlorenzo799@gmail.com"
@@ -140,11 +142,23 @@ def send_email(flips, leads, trends):
     msg["Subject"] = f"Daily Money Report - {date}"
     msg.attach(MIMEText(body, "plain"))
 
-    context = ssl.create_default_context()
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
-        server.login(GMAIL_SENDER, GMAIL_APP_PASSWORD)
-        server.sendmail(GMAIL_SENDER, RECIPIENT_EMAIL, msg.as_string())
-    print("[+] Email sent successfully!")
+    response = requests.post(
+        "https://api.resend.com/emails",
+        headers={
+            "Authorization": f"Bearer {RESEND_API_KEY}",
+            "Content-Type": "application/json"
+        },
+        json={
+            "from": "Money Bot <onboarding@resend.dev>",
+            "to": [RECIPIENT_EMAIL],
+            "subject": f"Daily Money Report - {date}",
+            "text": body
+        }
+    )
+    if response.status_code == 200 or response.status_code == 201:
+        print("[+] Email sent successfully!")
+    else:
+        print(f"[-] Email failed: {response.text}")
 from flask import Flask
 app = Flask(__name__)
 
